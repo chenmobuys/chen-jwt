@@ -49,7 +49,7 @@ zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
     | 指定token的有效时间(单位秒)。
     |
     */
-    'ttl' => env('JWT_TTL', 1),
+    'ttl' => env('JWT_TTL', 60 * 60),
     /*
     |--------------------------------------------------------------------------
     | Token 刷新有效期
@@ -58,7 +58,7 @@ zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
     | 指定token过期后,多长一段时间内(单位秒),使用过期的token能够刷新。
     |
     */
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 30240),
+    'refresh_ttl' => env('JWT_REFRESH_TTL', 60 * 60 * 24 * 7),
     /*
     |--------------------------------------------------------------------------
     | JWT 算法ID
