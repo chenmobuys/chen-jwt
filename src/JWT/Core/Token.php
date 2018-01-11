@@ -3,6 +3,7 @@
 namespace Chenmobuys\ChenJWT\JWT\Core;
 
 
+use Chenmobuys\ChenJWT\JWT\ChenAuth;
 use Chenmobuys\ChenJWT\JWT\Exceptions\TokenInvalidException;
 use Chenmobuys\ChenJWT\JWT\Sign\HMAC;
 use Chenmobuys\ChenJWT\JWT\Sign\RSA;
@@ -98,8 +99,8 @@ class Token
     }
 
     /**
-     * validate Claims
      * @return bool
+     * @throws TokenInvalidException
      */
     private function validatePayload()
     {
@@ -109,7 +110,11 @@ class Token
             }
         }
 
-        if (!$this->validateExpriteTime()) {
+        if (!$this->validateJwtId()) {
+            throw new TokenInvalidException('token is in blacklist');
+        }
+
+        if (!$this->validateExpireTime()) {
             throw new TokenInvalidException('token has expired');
         }
 
@@ -126,9 +131,9 @@ class Token
      * @return bool
      * @throws TokenInvalidException
      */
-    private function validateExpriteTime()
+    private function validateExpireTime()
     {
-        $expClaim = $this->payload->getClaim('exp');
+        $expClaim = $this->getClaim('exp');
 
         if (!$expClaim) {
             throw new TokenInvalidException('payload has no exp claim');
@@ -150,7 +155,7 @@ class Token
      */
     private function validateRefreshTime()
     {
-        $refClaim = $this->payload->getClaim('ref');
+        $refClaim = $this->getClaim('ref');
 
         if (!$refClaim) {
             throw new TokenInvalidException('payload has no ref claim');
@@ -173,7 +178,7 @@ class Token
      */
     private function validateNotBefore()
     {
-        $nbfClaim = $this->payload->getClaim('nbf');
+        $nbfClaim = $this->getClaim('nbf');
 
         if (!$nbfClaim) {
             return true;
@@ -189,8 +194,20 @@ class Token
     }
 
     /**
+     * validate jti
+     * @return bool
+     */
+    private function validateJwtId()
+    {
+        $jtiClaim = $this->getClaim('jti');
+
+        return !app('cache')->has(ChenAuth::PREFIX . $jtiClaim);
+    }
+
+    /**
      * validate signature
-     * @return bool|mixed
+     * @return bool
+     * @throws TokenInvalidException
      */
     private function validateSignature()
     {
@@ -223,7 +240,7 @@ class Token
 
     /**
      * get signer
-     * @return Contracts\ISign
+     * @return HMAC|RSA
      */
     public function getSigner()
     {
@@ -256,6 +273,15 @@ class Token
     public function getSignature()
     {
         return $this->signature;
+    }
+
+    /**
+     * @param $name
+     * @return \Chenmobuys\ChenJWT\JWT\Claims\Claim
+     */
+    public function getClaim($name)
+    {
+        return $this->payload->getClaim($name);
     }
 
     /**

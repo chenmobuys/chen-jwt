@@ -4,27 +4,78 @@ namespace Chenmobuys\ChenJWT\JWT;
 
 
 use Chenmobuys\ChenJWT\JWT\Core\Parse;
+use Chenmobuys\ChenJWT\JWT\Core\Token;
 
 class ChenAuth
 {
     use Parse;
 
+    const PREFIX = 'jwt:blacklist:jti:';
+
+    /**
+     * @param array $credentials
+     * @return string
+     */
     public static function createToken($credentials = [])
     {
         return self::getToken($credentials);
     }
 
+    /**
+     * @param array $credentials
+     * @return string
+     */
     public static function refreshToken($token, $credentials = [])
     {
-        self::parseToken($token)->validate();
+        $token = self::parseToken($token);
+
+        $token->validateRefresh();
+
+        self::addToBlackList($token);
 
         return self::getToken($credentials);
     }
 
     /**
-     * get token
+     * @param $token
+     */
+    public static function addToBlackList(Token $token)
+    {
+        $jti = $token->getClaim('jti')->getValue();
+
+        $refreshExpireTime = $token->getClaim('ref')->getValue();
+
+        $now = time();
+
+        $cacheMinutes = ($refreshExpireTime - $now) / 60;
+
+        app('cache')->put(self::PREFIX . $jti, $now, $cacheMinutes);
+    }
+
+    /**
+     * @param $data
+     * @param int $code
+     * @param array $headers
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function success($data, $code = 200, $headers = [])
+    {
+        return response(['data' => $data], $code, [])->json();
+    }
+
+    /**
+     * @param $message
+     * @param int $code
+     * @param array $headers
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function error($message, $code = 503, $headers = [])
+    {
+        return response(['error' => $message], $code, $headers)->json();
+    }
+
+    /**
      * @param array $credentials
-     * @param string $token
      * @return string
      */
     protected static function getToken($credentials = [])
