@@ -17,7 +17,7 @@ return [
     | RSA 签名私钥是用来为token进行RSA签名的,必须在.env文件中设置。
     |
     */
-    'private_key' => env('JWT_PRIVATE_KEY','-----BEGIN PRIVATE KEY-----
+    'private_key' => env('JWT_PRIVATE_KEY', '-----BEGIN PRIVATE KEY-----
 MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA4VqgBcZM/LP7P3YC
 uiDWOPwGFP1wwlPM6QbHfrgEjTk4ZFqQEZmURFExRMR0tiRIVqNF0oPKl+xSkE4i
 YLSEmwIDAQABAkEAzgr/PuhlobOp6ActTSMS2z1LDkv/mh3mv7TsGCeGOdu9PsjU
@@ -36,7 +36,7 @@ MTVCpJZK3pVU
     | RSA 签名公钥是用来为token进行RSA签名解密的,必须在.env文件中设置。
     |
     */
-    'public_key' => env('JWT_PUBLIC_KEY','-----BEGIN PUBLIC KEY-----
+    'public_key' => env('JWT_PUBLIC_KEY', '-----BEGIN PUBLIC KEY-----
 MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOFaoAXGTPyz+z92Arog1jj8BhT9cMJT
 zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
 -----END PUBLIC KEY-----
@@ -49,7 +49,7 @@ zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
     | 指定token的有效时间(单位秒)。
     |
     */
-    'ttl' => env('JWT_TTL', 1),
+    'ttl' => env('JWT_TTL', 60 * 60 * 1),
     /*
     |--------------------------------------------------------------------------
     | Token 刷新有效期
@@ -58,7 +58,7 @@ zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
     | 指定token过期后,多长一段时间内(单位秒),使用过期的token能够刷新。
     |
     */
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 30240),
+    'refresh_ttl' => env('JWT_REFRESH_TTL', 60 * 60 * 24 * 7),
     /*
     |--------------------------------------------------------------------------
     | JWT 算法ID
