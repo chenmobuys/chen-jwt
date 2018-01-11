@@ -3,12 +3,12 @@
 namespace Chenmobuys\ChenJWT\JWT;
 
 
-use Chenmobuys\ChenJWT\JWT\Core\Parse;
+use Chenmobuys\ChenJWT\JWT\Core\ParseTrait;
 use Chenmobuys\ChenJWT\JWT\Core\Token;
 
 class ChenAuth
 {
-    use Parse;
+    use ParseTrait;
 
     const PREFIX = 'jwt:blacklist:jti:';
 
@@ -91,9 +91,9 @@ class ChenAuth
         $algorithmId = config('jwt.algorithm_id');
         $issur = app('request')->url();
         $issueAt = time();
-        $expireAt = time() + config('jwt.ttl');
-        $refreshAt = time() + config('jwt.refresh_ttl');
-        $notBefore = time() - config('jwt.not_before');
+        $expireAt = $issueAt + config('jwt.ttl');
+        $refreshAt = $issueAt + config('jwt.refresh_ttl');
+        $notBefore = $issueAt - config('jwt.not_before');
         $jwtId = uniqid();
         $subject = md5(uniqid());
         $secretKey = config('jwt.secret_key');

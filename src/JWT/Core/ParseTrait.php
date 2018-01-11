@@ -6,8 +6,13 @@ namespace Chenmobuys\ChenJWT\JWT\Core;
 use Chenmobuys\ChenJWT\JWT\Claims\ClaimFactory;
 use Chenmobuys\ChenJWT\JWT\Exceptions\TokenParseException;
 
-trait Parse
+trait ParseTrait
 {
+    /**
+     * parse token
+     * @param $token
+     * @return Token
+     */
     public static function parseToken($token)
     {
         $tokens = self::splitToken($token);
@@ -22,6 +27,12 @@ trait Parse
         return new Token($header, $payload, $secret, $private, $public, $signature);
     }
 
+    /**
+     * split token
+     * @param $token
+     * @return array
+     * @throws TokenParseException
+     */
     private static function splitToken($token)
     {
         $tokens = explode('.', $token);
@@ -33,6 +44,12 @@ trait Parse
         return $tokens;
     }
 
+    /**
+     * parse header
+     * @param $header
+     * @return Header
+     * @throws TokenParseException
+     */
     private static function parseHeader($header)
     {
         $headerJson = base64_url_decode($header);
@@ -58,6 +75,12 @@ trait Parse
         return new Header($header->alg, $header->typ);
     }
 
+    /**
+     * parse payload
+     * @param $payload
+     * @return Payload
+     * @throws TokenParseException
+     */
     private static function parsePayload($payload)
     {
         $claimsJson = base64_url_decode($payload);
@@ -91,6 +114,12 @@ trait Parse
         return $payload;
     }
 
+    /**
+     * parse signature
+     * @param $signature
+     * @return Signature
+     * @throws TokenParseException
+     */
     private static function parseSignature($signature)
     {
         if (empty($signature)) {

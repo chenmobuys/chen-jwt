@@ -17,7 +17,7 @@ return [
     | RSA 签名私钥是用来为token进行RSA签名的,必须在.env文件中设置。
     |
     */
-    'private_key' => env('JWT_PRIVATE_KEY','-----BEGIN PRIVATE KEY-----
+    'private_key' => env('JWT_PRIVATE_KEY', '-----BEGIN PRIVATE KEY-----
 MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA4VqgBcZM/LP7P3YC
 uiDWOPwGFP1wwlPM6QbHfrgEjTk4ZFqQEZmURFExRMR0tiRIVqNF0oPKl+xSkE4i
 YLSEmwIDAQABAkEAzgr/PuhlobOp6ActTSMS2z1LDkv/mh3mv7TsGCeGOdu9PsjU
@@ -36,7 +36,7 @@ MTVCpJZK3pVU
     | RSA 签名公钥是用来为token进行RSA签名解密的,必须在.env文件中设置。
     |
     */
-    'public_key' => env('JWT_PUBLIC_KEY','-----BEGIN PUBLIC KEY-----
+    'public_key' => env('JWT_PUBLIC_KEY', '-----BEGIN PUBLIC KEY-----
 MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOFaoAXGTPyz+z92Arog1jj8BhT9cMJT
 zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
 -----END PUBLIC KEY-----
@@ -79,7 +79,7 @@ zOkGx364BI05OGRakBGZlERRMUTEdLYkSFajRdKDypfsUpBOImC0hJsCAwEAAQ==
     | 指定一个时间增量(单位秒),在此签发时间+此事件增量时间之前,Token都不能使用
     |
     */
-    'not_before=>' => env('JWT_NOT_BEFORE', 0),
+    'not_before' => env('JWT_NOT_BEFORE', 1),
     /*
     |--------------------------------------------------------------------------
     | 刷新Token次数差值
