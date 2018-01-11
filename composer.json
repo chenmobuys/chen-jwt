@@ -1,0 +1,28 @@
+{
+  "name": "chenmobuys/chen-jwt",
+  "version": "1.0.0",
+  "description": "JWT for Lumen And Laravel",
+  "keywords": [
+    "laravel",
+    "lumen",
+    "jwt"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Chenmobuys",
+      "email": "chenmobuys@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Chenmobuys\\ChenJWT\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  }
+}
